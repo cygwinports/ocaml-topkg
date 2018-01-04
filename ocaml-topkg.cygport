@@ -1,0 +1,28 @@
+inherit ocaml
+
+NAME="ocaml-topkg"
+VERSION=0.9.1
+RELEASE=1
+CATEGORY="OCaml"
+SUMMARY="OCaml package buildsystem"
+DESCRIPTION="Topkg is a packager for distributing OCaml software. It provides
+an API to describe the files a package installs in a given build configuration
+and to specify information about the package's distribution creation and
+publication procedures."
+HOMEPAGE="http://erratique.ch/software/topkg"
+SRC_URI="http://erratique.ch/software/topkg/releases/topkg-${VERSION}.tbz"
+SRC_DIR="topkg-${VERSION}"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	${OCAML} pkg/pkg.ml build
+}
+
+src_install() {
+	cd ${B}
+	opam-installer \
+		--prefix=${D}/usr \
+		--libdir=${D}${OCAML_LIBDIR} \
+		--docdir=${D}/usr/share/doc
+}
